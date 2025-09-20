@@ -60,3 +60,79 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # Car-Wash
+
+## ERD
+
+```mermaid
+erDiagram
+    users {
+        int id PK
+        string name
+        string email
+        string phone
+        string password
+    }
+
+    cars {
+        int id PK
+        int user_id FK
+        string license_plate
+        string brand
+        string model
+        string color
+    }
+
+    locations {
+        int id PK
+        string name
+        text address
+        decimal latitude
+        decimal longitude
+    }
+
+    wash_packages {
+        int id PK
+        string name
+        text description
+        decimal price
+        int duration_minutes
+    }
+
+    bookings {
+        int id PK
+        int user_id FK
+        int car_id FK
+        int wash_package_id FK
+        int location_id FK
+        datetime booking_date
+        time start_time
+        time end_time
+        string status
+    }
+
+    payments {
+        int id PK
+        int booking_id FK
+        decimal amount
+        string payment_method
+        string transaction_id
+        string status
+    }
+
+    reviews {
+        int id PK
+        int user_id FK
+        int booking_id FK
+        int rating
+        text comment
+    }
+
+    users ||--o{ cars : "has many"
+    users ||--o{ bookings : "has many"
+    users ||--o{ reviews : "has many"
+    cars ||--o{ bookings : "has many"
+    locations ||--o{ bookings : "has many"
+    wash_packages ||--o{ bookings : "has many"
+    bookings ||--o{ payments : "has one"
+    bookings ||--o{ reviews : "has many"
+```
